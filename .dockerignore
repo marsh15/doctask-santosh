@@ -1,0 +1,12 @@
+.git
+.env
+.env.*
+!.env.example
+.venv
+__pycache__
+.pytest_cache
+apps/web/node_modules
+apps/web/dist
+.playwright-cli
+output
+.DS_Store

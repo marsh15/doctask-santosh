@@ -1,0 +1,10 @@
+rules:
+  - id: active-milestone-owner-required
+    name: Active milestones need an owner
+    severity: HIGH
+    applies_to:
+      record_types: [MILESTONE]
+    required_fields: [owner]
+    on_failure:
+      finding_type: MISSING_OWNER
+      requires_human_review: true

@@ -1,0 +1,2 @@
+Project Lighthouse change request
+Scope change SC1: Add regional rollout - status proposed.

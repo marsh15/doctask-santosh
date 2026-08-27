@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16@sha256:a36250871de0833b8757561c72f2477ef1ddd1101afa4e617fb552e0de514c6b
+    environment:
+      POSTGRES_DB: doctask
+      POSTGRES_USER: doctask
+      POSTGRES_PASSWORD: doctask-local-only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doctask -d doctask"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - doctask-postgres:/var/lib/postgresql/data
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://doctask:doctask-local-only@postgres:5432/doctask
+      RULES_PATH: fixtures/rules/project-controls.yaml
+      LANGGRAPH_STRICT_MSGPACK: "true"
+      MCP_ALLOWED_HOSTS: localhost:8000,127.0.0.1:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  doctask-postgres:
